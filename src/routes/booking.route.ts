@@ -7,6 +7,9 @@ import Slot from "../models/slot.model";
 const router = Router();
 
 router.post("/", async (req, res) => {
+  // #swagger.description = 'Create booking by slot id'
+  // #swagger.requestBody = { required: true, schema: { $ref: "#/definitions/booking_post_req" } }
+
   try {
     const booking: IBooking = req?.body;
 

@@ -9,6 +9,7 @@ import cors from "cors";
 import authRouter from "./routes/auth.route";
 import slotRouter from "./routes/slot.route";
 import bookingRouter from "./routes/booking.route";
+import staticRouter from "./routes/static.route";
 
 import { PORT } from "./config/config";
 import { isReady } from "./config/db";
@@ -24,6 +25,7 @@ app.disable("x-powered-by");
 app.use("/slot", slotRouter);
 app.use("/auth", authRouter);
 app.use("/booking", bookingRouter);
+app.use("/", staticRouter);
 
 app.get("/health", (_, res) => res.json({ db: isReady() }));
 

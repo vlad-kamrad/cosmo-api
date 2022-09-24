@@ -1,0 +1,365 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Cosmo api",
+    "description": "My User Project Application API",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/"
+    }
+  ],
+  "paths": {
+    "/health": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/slot/": {
+      "get": {
+        "description": "Returns available slots for end users",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/slot_get_res"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/slot_get_res"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "description": "Creates empty slots by admin",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/slot_post_req"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/slot_post_req"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "description": "Removes slot by admin",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/slot_delete_req"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/slot_delete_req"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/slot/all": {
+      "get": {
+        "description": "Returns all slots for admins",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/slot_get_all_res"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/slot_get_all_res"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "description": "Receive credentials and returns jwt",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/auth_login_req"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/auth_login_req"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/booking/": {
+      "post": {
+        "description": "Create booking by slot id",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/booking_post_req"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/booking_post_req"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "auth_login_req": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "example": "R0dger"
+          },
+          "password": {
+            "type": "string",
+            "example": "simplEPassword"
+          }
+        },
+        "xml": {
+          "name": "auth_login_req"
+        }
+      },
+      "booking_post_req": {
+        "type": "object",
+        "properties": {
+          "slotId": {
+            "type": "string",
+            "example": "632ef08e620cac93af6bf8d6"
+          },
+          "clientName": {
+            "type": "string",
+            "example": "R0dger"
+          },
+          "services": {
+            "type": "string",
+            "example": "Pilling, botex, fresh mask"
+          },
+          "location": {
+            "type": "string",
+            "example": "Dnipro city"
+          },
+          "phone": {
+            "type": "string",
+            "example": "+380987654321"
+          }
+        },
+        "xml": {
+          "name": "booking_post_req"
+        }
+      },
+      "slot_get_res": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "example": "632e2e26620cac93af6bf8ba"
+            },
+            "start": {
+              "type": "string",
+              "example": "2022-09-24T15:30:00.000Z"
+            },
+            "end": {
+              "type": "string",
+              "example": "2022-09-24T16:30:00.000Z"
+            },
+            "isFree": {
+              "type": "boolean",
+              "example": true
+            }
+          }
+        },
+        "xml": {
+          "name": "slot_get_res"
+        }
+      },
+      "slot_get_all_res": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "example": "62f4085218d02598d17053be"
+            },
+            "start": {
+              "type": "string",
+              "example": "2022-08-16T13:30:00.000Z"
+            },
+            "end": {
+              "type": "string",
+              "example": "2022-08-16T14:30:00.000Z"
+            },
+            "isFree": {
+              "type": "boolean",
+              "example": false
+            },
+            "booking": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "_id": {
+                    "type": "string",
+                    "example": "62f4093a18d02598d17053e1"
+                  },
+                  "slotId": {
+                    "type": "string",
+                    "example": "62f4085218d02598d17053be"
+                  },
+                  "clientName": {
+                    "type": "string",
+                    "example": "R0dger"
+                  },
+                  "services": {
+                    "type": "string",
+                    "example": "Pilling, botex, fresh mask"
+                  },
+                  "location": {
+                    "type": "string",
+                    "example": "Dnipro city"
+                  },
+                  "phone": {
+                    "type": "string",
+                    "example": "+380987654321"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "xml": {
+          "name": "slot_get_all_res"
+        }
+      },
+      "slot_post_req": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "start": {
+              "type": "string",
+              "example": "2022-09-23T07:00:00.000Z"
+            },
+            "end": {
+              "type": "string",
+              "example": "2022-09-23T08:00:00.000Z"
+            }
+          }
+        },
+        "xml": {
+          "name": "slot_post_req"
+        }
+      },
+      "slot_delete_req": {
+        "type": "object",
+        "properties": {
+          "slotId": {
+            "type": "string",
+            "example": "632ef08e620cac93af6bf8d6"
+          }
+        },
+        "xml": {
+          "name": "slot_delete_req"
+        }
+      }
+    }
+  }
+}
